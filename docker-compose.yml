@@ -1,0 +1,48 @@
+version: "3"
+services:
+        jupyter:
+                depends_on:
+                        - redis
+                image: lewis9914/midterm_review
+                environment:
+                        - JUPYTER_ENABLE_LAB=yes
+                        - JUPYTER_TOKEN="asd"
+                        - CHOWN_HOME=yes
+                        - CHOWN_HOME_OPTS="-R"
+                networks:
+                        - bdp2-net
+                ports:
+                        - 80:8080
+                user: root
+                volumes:
+                        - ~/review/work:/home/jovyan
+        redis:
+                image: redis
+                networks:
+                        - bdp2-net
+                user: "1000"
+                volumes:
+                        - ~/review/work:/data
+                command:
+                        - redis-server
+        portainer:
+                image: portainer/portainer-ce
+                networks:
+                        - bdp2-net
+                ports:
+                        - 8000:8000
+                        - 443:943
+                restart:
+                        always
+                volumes:
+                        - /var/run/docker.sock:/var/run/docker.sock
+                        - ~/review/work/portainer_data:/data
+
+
+volumes:
+        ~/review/work/portainer_data
+networks:
+        bdp2-net
+
+
+
