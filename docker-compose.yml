@@ -17,12 +17,13 @@ services:
                 - ~/review/work:/home/jovyan
         ports:
                 - 80:8888
-                - 6379:6379
  redis:
         image: redis
-        command: redis-server
+        command: 
+                - redis-server
         volumes:
                 - ~/review/work:/data
+        user: "1000"
         networks:
                 - backend
  portainer:
